@@ -1,4 +1,5 @@
 function Board(cell_width, tile_type){
+	this.mapfile = new Map("library/maps/test_map.json");
 	this.game = game;
 	this.width = document.body.clientWidth;
 	this.height = document.body.clientHeight;
