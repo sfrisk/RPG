@@ -1,5 +1,6 @@
-function Map(mapfile)
+function Map()
 {
+	this.src = null;
 	this.cell_width = null;
 	this.cell_height = null;
 	this.map_width = null;
@@ -8,33 +9,22 @@ function Map(mapfile)
 	this.walkable = null;
 	this.terrain = null;
 
-	this.init(mapfile);
+	//this.init(this.src);
 };
 
-Map.prototype.init = function(mapfile)
+Map.prototype.init = function()
 {
 	var map = this;
-	$.getJSON(mapfile, function(json){
+	$.getJSON(map.src, function(json){
 		map.cell_width = json.CellWidth;
 		map.cell_height = json.CellHeight;
 		map.map_width = json.MapWidth;
 		map.map_height = json.MapHeight;
-		map.source = json.MapSource;
+		map.map_tiles1 = new Image();	
+		map.map_tiles1.src = json.MapSource;
 		map.walkable = json.Walkable;
 		map.terrain = json.TerrainLayer;
 	});
 
-};
-
-Map.prototype.assignJSON = function(json)
-{
-
-	map.cell_width = json.CellWidth;
-	map.cell_height = json.CellHeight;
-	map.map_width = json.MapWidth;
-	map.map_height = json.MapHeight;
-	map.source = json.MapSource;
-	map.walkable = json.Walkable;
-	map.terrain = json.TerrainLayer;
 
 };
