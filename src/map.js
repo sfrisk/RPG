@@ -5,7 +5,6 @@ function Map()
 	this.cell_height = null;
 	this.map_width = null;
 	this.map_height = null;
-	this.source = null;
 	this.walkable = null;
 	this.terrain = null;
 
@@ -15,7 +14,7 @@ function Map()
 Map.prototype.init = function()
 {
 	var map = this;
-	$.getJSON(map.src, function(json){
+	$.getJSON(map.src, null, function(json){
 		map.cell_width = json.CellWidth;
 		map.cell_height = json.CellHeight;
 		map.map_width = json.MapWidth;

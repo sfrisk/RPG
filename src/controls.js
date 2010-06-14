@@ -1,15 +1,15 @@
 function checkKey(e){
      switch (e.keyCode) {
-        case 40:
+        case down: //down key
             game.board.down();
             break;
-        case 38:
+        case up: //up key
             game.board.up();
             break;
-        case 37:
+        case left: //left key
             game.board.left();
             break;
-        case 39:
+        case right: //right key
             game.board.right();
             break;
             }      
