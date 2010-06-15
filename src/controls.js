@@ -19,6 +19,7 @@ function checkKey(e){ //trigger walking animation?
 				case attack:
 						///uh, do something attacky
 						game.board.player.sprite.moving = true;
+						game.board.player.sprite.attack = true;
 						game.board.attack();
 						break;
             }  
@@ -26,6 +27,7 @@ function checkKey(e){ //trigger walking animation?
 				case attack:
 				///uh, do something attacky
 				game.board.player.sprite.moving = true;
+				game.board.player.sprite.attack = true;
 				game.board.attack();
 				break;
 			}
@@ -34,6 +36,7 @@ function checkKey(e){ //trigger walking animation?
 function Stop(e){
 	//call whatever it is I'm calling to stop animation
 	game.board.player.sprite.moving = false;
+	game.board.player.sprite.attack = false;
 	game.board.halt();
 	//alert("stop moving");
 }

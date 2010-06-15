@@ -2,7 +2,7 @@
 	"Source": "library/images/players/link_attacks.png",
 	
 	"SpriteWidth": 40,
-	"SpriteHeight": 46,
+	"SpriteHeight": 40,
 	
 	"xOffset": -10,
 	"yOffset": -7,
