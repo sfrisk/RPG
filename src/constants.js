@@ -6,8 +6,8 @@ var attack = 122;
 var attacked = 90;
 var stop = 0;
 
-//if ($.browser.mozilla) {
-//    attack = 122;
-//} else {
-//		attack = 90;
-//}
+if ($.browser.mozilla) {
+    attack = 122;
+} else {
+		attack = 90;
+}
