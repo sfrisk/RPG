@@ -69,7 +69,7 @@ Sprite.prototype.changeFace = function(direction)
 	//		this.face[1] = 1;
 	//		break;
 	}
-	if (this.moving == false)
+	if (this.attack == false)
 	{	
 		this.face[1] = 0;
 		//console.log(this.face);

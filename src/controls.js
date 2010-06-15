@@ -35,8 +35,16 @@ function checkKey(e){ //trigger walking animation?
 
 function Stop(e){
 	//call whatever it is I'm calling to stop animation
+
+	switch (e.which){
+		case attacked:
+			game.board.player.sprite.attack = false;
+			//game.board.player.sprite.moving = false;
+			game.board.halt();
+			break;
+	}
+	//game.board.player.sprite.attack = false;
 	game.board.player.sprite.moving = false;
-	game.board.player.sprite.attack = false;
 	game.board.halt();
 	//alert("stop moving");
 }
@@ -44,7 +52,10 @@ function Stop(e){
 if ($.browser.mozilla) {
     $(document).keypress (checkKey);
 } else {
-    $(document).keydown (checkKey);
+    $(document).keypress (checkKey);
 }
+
+//keydown is calling the function 4 times? stay with keypress
+
 
 $(document).keyup(Stop);
