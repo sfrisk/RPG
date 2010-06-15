@@ -1,14 +1,7 @@
-function Map()
+function Map(src)
 {
-	this.src = null;
-	this.cell_width = null;
-	this.cell_height = null;
-	this.map_width = null;
-	this.map_height = null;
-	this.walkable = null;
-	this.terrain = null;
-
-	//this.init(this.src);
+	this.src = src; //this is the location of the JSON file 
+	this.init(this.src);
 };
 
 Map.prototype.init = function()
@@ -25,5 +18,7 @@ Map.prototype.init = function()
 		map.terrain = json.TerrainLayer;
 	});
 
+
+//we're gonna have to put some other stuff here, scrollable maps, doors, etc
 
 };

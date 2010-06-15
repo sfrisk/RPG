@@ -1,0 +1,14 @@
+{
+	"Source": "library/images/players/link.png",
+	
+	"SpriteWidth": 20,
+	"SpriteHeight": 26,
+	
+	"Width": 4,
+	"Height": 1,
+	
+	"Down": [0,0],
+	"Left": [1,0],
+	"Up": [2,0],
+	"Right": [3,0]
+}

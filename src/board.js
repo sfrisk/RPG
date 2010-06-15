@@ -4,9 +4,7 @@ function Board(cell_width){
 	this.canvas = document.getElementById("canvas");
 	this.ctx = this.canvas.getContext("2d");
 	
-	this.map = new Map();
-	this.map.src = "library/maps/test_map.json";
-	this.map.init();
+	this.map = new Map("library/maps/test_map.json");
 	
 	this.width = document.body.clientWidth;
 	this.height = document.body.clientHeight;
@@ -14,8 +12,7 @@ function Board(cell_width){
 	
 	this.selected = [1,1];
 
-	this.character = new Image();
-	this.character.src = "library/images/link.png";
+	this.player = new Player("library/images/players/sprite_test.json");
 
 };
 
@@ -64,7 +61,10 @@ Board.prototype.drawRects = function(x,y,w,h,color)
 Board.prototype.drawSprite = function(x,y,src)
 {
 	//console.log(src);
-	this.ctx.drawImage(src,x,y);
+	draw =  this.player.sprite.drawInfo();
+	//drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
+	this.ctx.drawImage(draw[0],draw[1],draw[2],draw[3],draw[4],x,y,draw[3],draw[4]);
+	//this.ctx.drawImage(x,y,src);
 };
 	
 Board.prototype.up = function()
@@ -73,7 +73,7 @@ Board.prototype.up = function()
 	{
 		this.set_selected([this.selected[0], this.selected[1] - 1]);
 	}
-	this.character.src = "library/images/link_back.png";
+	this.player.sprite.turnFace(up);
 	this.draw();
 };
 	
@@ -83,7 +83,7 @@ Board.prototype.down = function()
 	{
 		this.set_selected([this.selected[0], this.selected[1] + 1]);
 	}
-	this.character.src = "library/images/link.png";
+	this.player.sprite.turnFace(down);
 	this.draw();
 };
 	
@@ -93,7 +93,7 @@ Board.prototype.right = function()
 	{
 		this.set_selected([this.selected[0]+1,this.selected[1]]);
 	}
-	this.character.src = "library/images/link_right.png";
+	this.player.sprite.turnFace(right);
 	this.draw();
 };
 	
@@ -103,7 +103,7 @@ Board.prototype.left = function()
 	{
 		this.set_selected([this.selected[0] - 1, this.selected[1]]);
 	}
-	this.character.src = "library/images/link_left.png";
+	this.player.sprite.turnFace(left);
 	this.draw();	
 }
 	
