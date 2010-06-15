@@ -1,14 +1,22 @@
 {
-	"Source": "library/images/players/link.png",
+	"Source": "library/images/players/link_attacks.png",
 	
-	"SpriteWidth": 20,
-	"SpriteHeight": 26,
+	"SpriteWidth": 40,
+	"SpriteHeight": 46,
+	
+	"xOffset": -10,
+	"yOffset": -7,
 	
 	"Width": 4,
-	"Height": 1,
+	"Height": 2,
 	
 	"Down": [0,0],
 	"Left": [1,0],
 	"Up": [2,0],
-	"Right": [3,0]
+	"Right": [3,0],
+	
+	"Down_Attack": [0,1],
+	"Left_Attack": [1,1],
+	"Up_Attack": [2,1],
+	"Right_Attack": [3,1]
 }

@@ -61,9 +61,9 @@ Board.prototype.drawRects = function(x,y,w,h,color)
 Board.prototype.drawSprite = function(x,y,src)
 {
 	//console.log(src);
-	draw =  this.player.sprite.drawInfo();
+	draw =  this.player.sprite.drawInfo(x,y);
 	//drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-	this.ctx.drawImage(draw[0],draw[1],draw[2],draw[3],draw[4],x,y,draw[3],draw[4]);
+	this.ctx.drawImage(draw[0],draw[1],draw[2],draw[3],draw[4],draw[5],draw[6],draw[3],draw[4]);
 	//this.ctx.drawImage(x,y,src);
 };
 	
@@ -73,7 +73,7 @@ Board.prototype.up = function()
 	{
 		this.set_selected([this.selected[0], this.selected[1] - 1]);
 	}
-	this.player.sprite.turnFace(up);
+	this.player.sprite.changeFace(up);
 	this.draw();
 };
 	
@@ -83,7 +83,7 @@ Board.prototype.down = function()
 	{
 		this.set_selected([this.selected[0], this.selected[1] + 1]);
 	}
-	this.player.sprite.turnFace(down);
+	this.player.sprite.changeFace(down);
 	this.draw();
 };
 	
@@ -93,7 +93,7 @@ Board.prototype.right = function()
 	{
 		this.set_selected([this.selected[0]+1,this.selected[1]]);
 	}
-	this.player.sprite.turnFace(right);
+	this.player.sprite.changeFace(right);
 	this.draw();
 };
 	
@@ -103,7 +103,18 @@ Board.prototype.left = function()
 	{
 		this.set_selected([this.selected[0] - 1, this.selected[1]]);
 	}
-	this.player.sprite.turnFace(left);
+	this.player.sprite.changeFace(left);
 	this.draw();	
-}
+};
 	
+Board.prototype.attack = function()
+{
+	this.player.sprite.changeFace(attack);
+	this.draw();
+};	
+
+Board.prototype.halt = function()
+{
+	this.player.sprite.changeFace(stop);
+	this.draw();
+}

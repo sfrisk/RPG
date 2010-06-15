@@ -18,24 +18,33 @@ Sprite.prototype.init = function()
 			sprite.left = json.Left;
 			sprite.up = json.Up;
 			sprite.right = json.Right;
+			sprite.xoff = json.xOffset;
+			sprite.yoff = json.yOffset;
 			//figure out later what to do for attacks and stuff
+			sprite.dAttack = json.Down_Attack;
+			sprite.lAttack = json.Left_Attack;
+			sprite.uAttack = json.Up_Attack;
+			sprite.rAttack = json.Right_Attack;
+
 			sprite.face = sprite.down;
 		});
 		
 };
 
-Sprite.prototype.drawInfo = function()
+Sprite.prototype.drawInfo = function(x,y)
 {
 	image = this.image;
 	sWidth = this.sWidth;
 	sHeight = this.sHeight;
 	sx = this.face[0] * sWidth;
 	sy = this.face[1] * sHeight;
-	return [image,sx, sy, sWidth, sHeight];
+	dx = x + this.xoff;
+	dy = y + this.yoff;
+	return [image,sx, sy, sWidth, sHeight, dx, dy];
 }
 
 
-Sprite.prototype.turnFace = function(direction)
+Sprite.prototype.changeFace = function(direction)
 {
 	switch (direction){
 		case down:
@@ -50,6 +59,13 @@ Sprite.prototype.turnFace = function(direction)
 		case right:
 			this.face = this.right;
 			break;	
+		case attack:
+			this.face[1] = 1;
+			break;
+		//case stop:
+			//this.face[1] = 0;
+			break;
 	}
-		
+	if (this.moving ==false)
+		this.face[1] = 0;
 }

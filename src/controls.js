@@ -1,18 +1,41 @@
-function checkKey(e){
+function checkKey(e){ //trigger walking animation?
      switch (e.keyCode) {
         case down: //down key
-            game.board.down();
-            break;
+						game.board.player.sprite.moving = true;
+						game.board.down();
+						break;
         case up: //up key
-            game.board.up();
-            break;
+						game.board.player.sprite.moving = true;
+						game.board.up();
+						break;
         case left: //left key
-            game.board.left();
-            break;
+						game.board.player.sprite.moving = true;
+						game.board.left();
+						break;
         case right: //right key
-            game.board.right();
-            break;
-            }      
+						game.board.player.sprite.moving = true;
+						game.board.right();
+						break;
+				case attack:
+						///uh, do something attacky
+						game.board.player.sprite.moving = true;
+						game.board.attack();
+						break;
+            }  
+    	switch (e.which){ //for mozzilla
+				case attack:
+				///uh, do something attacky
+				game.board.player.sprite.moving = true;
+				game.board.attack();
+				break;
+			}
+}
+
+function Stop(e){
+	//call whatever it is I'm calling to stop animation
+	game.board.player.sprite.moving = false;
+	game.board.halt();
+	//alert("stop moving");
 }
 
 if ($.browser.mozilla) {
@@ -20,3 +43,5 @@ if ($.browser.mozilla) {
 } else {
     $(document).keydown (checkKey);
 }
+
+$(document).keyup(Stop);
