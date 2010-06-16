@@ -12,7 +12,11 @@ function Board(cell_width){
 	
 	this.selected = [1,1];
 
-	this.player = new Player("library/images/players/sprite_test.json");
+	this.player = new Player("library/images/players/sprite_test.json", this.selected);
+	this.enemy = new Player("library/images/players/enemy.json", [3,15]);
+	//this.entities = [];
+	
+	this.count = 0;
 
 };
 
@@ -36,11 +40,17 @@ Board.prototype.generateGrid = function() {
 			this.drawMap(x,y);
 		}
 	}
-	this.drawSprite((this.selected[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.selected[1] * (this.map.cell_width )) - 10,this.character);
+	this.drawSprite((this.selected[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.selected[1] * (this.map.cell_width )) - 10,this.player);
+	this.drawSprite((this.enemy.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.enemy.location[1] * (this.map.cell_width )) - 10,this.enemy);
 };
 	
 Board.prototype.draw = function(){
 		this.clear();
+		if(this.count == 0)
+			this.moveEntity(this.enemy);
+		this.count ++;
+		if(this.count > 5)
+			this.count = 0;
 		this.generateGrid();
 };
 	
@@ -61,12 +71,43 @@ Board.prototype.drawRects = function(x,y,w,h,color)
 Board.prototype.drawSprite = function(x,y,src)
 {
 	//console.log(src);
-	draw =  this.player.sprite.drawInfo(x,y);
+	draw =  src.sprite.drawInfo(x,y);
 	//drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 	this.ctx.drawImage(draw[0],draw[1],draw[2],draw[3],draw[4],draw[5],draw[6],draw[3],draw[4]);
-	//this.ctx.drawImage(x,y,src);
-};
 	
+	
+	
+};
+	//Enemy functions (temporary until I do something else)
+Board.prototype.moveEntity = function(entity)
+{
+	
+	loc = entity.location;
+	i = Math.floor(Math.random()*4 + 1);
+	if(i == 1 && this.map.walkable[loc[1]-1][loc[0]] == 0)
+	{
+		entity.location = [loc[0],loc[1]-1];
+		entity.sprite.changeFace(up);
+	}
+	if(i == 2 && this.map.walkable[loc[1]+1][loc[0]] == 0)
+	{
+		entity.location = [loc[0],loc[1]+1];
+		entity.sprite.changeFace(down);
+	}
+	if(i == 3 && this.map.walkable[loc[1]][loc[0]-1] == 0)
+	{
+		entity.location = [loc[0]-1,loc[1]];
+		entity.sprite.changeFace(left);
+	}
+	if(i == 4 && this.map.walkable[loc[1]-1][loc[0]+1] == 0)
+	{
+		entity.location = [loc[0]+1,loc[1]];
+		entity.sprite.changeFace(right);
+	}
+}
+	
+	
+	//Player functions
 Board.prototype.up = function()
 {
 	if(this.map.walkable[this.selected[1]-1][this.selected[0]] == 0)
@@ -74,7 +115,7 @@ Board.prototype.up = function()
 		this.set_selected([this.selected[0], this.selected[1] - 1]);
 	}
 	this.player.sprite.changeFace(up);
-	this.draw();
+	//this.draw();
 };
 	
 Board.prototype.down = function()
@@ -84,7 +125,7 @@ Board.prototype.down = function()
 		this.set_selected([this.selected[0], this.selected[1] + 1]);
 	}
 	this.player.sprite.changeFace(down);
-	this.draw();
+	//this.draw();
 };
 	
 Board.prototype.right = function()
@@ -94,7 +135,7 @@ Board.prototype.right = function()
 		this.set_selected([this.selected[0]+1,this.selected[1]]);
 	}
 	this.player.sprite.changeFace(right);
-	this.draw();
+	//this.draw();
 };
 	
 Board.prototype.left = function()
@@ -104,17 +145,17 @@ Board.prototype.left = function()
 		this.set_selected([this.selected[0] - 1, this.selected[1]]);
 	}
 	this.player.sprite.changeFace(left);
-	this.draw();	
+	//this.draw();	
 };
 	
 Board.prototype.attack = function()
 {
 	this.player.sprite.changeFace(attack);
-	this.draw();
+	//this.draw();
 };	
 
 Board.prototype.halt = function()
 {
 	this.player.sprite.changeFace(stop);
-	this.draw();
+	//this.draw();
 }

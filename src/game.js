@@ -8,7 +8,5 @@ function Game()
 Game.prototype.init = function()
 {
 	var game = this;
-	//this.board.generateHTML(this.element)
-	//setTimeout("this.board.draw();",1250);
-	this.board.draw();
+	setInterval("game.board.draw()", 75);
 };
