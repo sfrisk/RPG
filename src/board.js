@@ -12,8 +12,8 @@ function Board(cell_width){
 	
 	this.selected = [1,1];
 
-	this.player = new Player("library/images/players/sprite_test.json", this.selected);
-	this.enemy = new Player("library/images/players/enemy.json", [3,15]);
+	this.player = new Sprite("library/images/players/sprite_test.json", this.selected);
+	this.enemy = new Sprite("library/images/players/enemy.json", [3,15]);
 	//this.entities = [];
 	
 	this.count = 0;
@@ -71,7 +71,7 @@ Board.prototype.drawRects = function(x,y,w,h,color)
 Board.prototype.drawSprite = function(x,y,src)
 {
 	//console.log(src);
-	draw =  src.sprite.drawInfo(x,y);
+	draw =  src.drawInfo(x,y);
 	//drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 	this.ctx.drawImage(draw[0],draw[1],draw[2],draw[3],draw[4],draw[5],draw[6],draw[3],draw[4]);
 	
@@ -87,22 +87,22 @@ Board.prototype.moveEntity = function(entity)
 	if(i == 1 && this.map.walkable[loc[1]-1][loc[0]] == 0)
 	{
 		entity.location = [loc[0],loc[1]-1];
-		entity.sprite.changeFace(up);
+		entity.changeFace(up);
 	}
 	if(i == 2 && this.map.walkable[loc[1]+1][loc[0]] == 0)
 	{
 		entity.location = [loc[0],loc[1]+1];
-		entity.sprite.changeFace(down);
+		entity.changeFace(down);
 	}
 	if(i == 3 && this.map.walkable[loc[1]][loc[0]-1] == 0)
 	{
 		entity.location = [loc[0]-1,loc[1]];
-		entity.sprite.changeFace(left);
+		entity.changeFace(left);
 	}
 	if(i == 4 && this.map.walkable[loc[1]-1][loc[0]+1] == 0)
 	{
 		entity.location = [loc[0]+1,loc[1]];
-		entity.sprite.changeFace(right);
+		entity.changeFace(right);
 	}
 }
 	
@@ -114,7 +114,7 @@ Board.prototype.up = function()
 	{
 		this.set_selected([this.selected[0], this.selected[1] - 1]);
 	}
-	this.player.sprite.changeFace(up);
+	this.player.changeFace(up);
 	//this.draw();
 };
 	
@@ -124,7 +124,7 @@ Board.prototype.down = function()
 	{
 		this.set_selected([this.selected[0], this.selected[1] + 1]);
 	}
-	this.player.sprite.changeFace(down);
+	this.player.changeFace(down);
 	//this.draw();
 };
 	
@@ -134,7 +134,7 @@ Board.prototype.right = function()
 	{
 		this.set_selected([this.selected[0]+1,this.selected[1]]);
 	}
-	this.player.sprite.changeFace(right);
+	this.player.changeFace(right);
 	//this.draw();
 };
 	
@@ -144,18 +144,18 @@ Board.prototype.left = function()
 	{
 		this.set_selected([this.selected[0] - 1, this.selected[1]]);
 	}
-	this.player.sprite.changeFace(left);
+	this.player.changeFace(left);
 	//this.draw();	
 };
 	
 Board.prototype.attack = function()
 {
-	this.player.sprite.changeFace(attack);
+	this.player.changeFace(attack);
 	//this.draw();
 };	
 
 Board.prototype.halt = function()
 {
-	this.player.sprite.changeFace(stop);
+	this.player.changeFace(stop);
 	//this.draw();
 }

@@ -1,10 +1,11 @@
-function Sprite(src)
+function Sprite(src, location)
 {
 	this.src = src; //this is the location of the Json file
 	this.moving = false; //this will determine later if we're having a walking animation
 	this.attack = false;
 	this.face = [0,0]; //this is the direction we're facing
 	this.image = new Image();
+	this.location = location;
 	this.init();
 };
 
