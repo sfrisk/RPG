@@ -27,6 +27,9 @@ function checkKey(e){ //trigger walking animation?
 						game.board.player.sprite.attack = true;
 						game.board.attack();
 						break;
+					case ENTER:
+						game.switchState();
+						break;
             }  
     	switch (e.which){ //for mozzilla
 				case attack:
