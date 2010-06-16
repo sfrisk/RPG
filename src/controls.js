@@ -1,43 +1,38 @@
 function checkKey(e){ //trigger walking animation?
 	//	alert("keypress");
+	var Player = game.board.player;
+	var map = game.board.map.walkable;
      switch (e.keyCode) {
         case down: //down key
-						console.log("down");
-						game.board.player.moving = true;
-						game.board.down();
+						//game.board.down();
+						Player.moveDown(map);
 						break;
         case up: //up key
-						console.log("up");
-						game.board.player.moving = true;
-						game.board.up();
+						//game.board.up();
+						Player.moveUp(map);
 						break;
         case left: //left key
-						console.log("left");
-						game.board.player.moving = true;
-						game.board.left();
+						//game.board.left();
+						Player.moveLeft(map)
 						break;
         case right: //right key
-						console.log("right");
-						game.board.player.moving = true;
-						game.board.right();
+						Player.moveRight(map);
 						break;
 				case attack:
 						///uh, do something attacky
-						game.board.player.moving = true;
-						game.board.player.attack = true;
+						Player.attack = true;
 						game.board.attack();
 						break;
-					case ENTER:
+				case ENTER:
 						game.switchState();
 						break;
             }  
-    	switch (e.which){ //for mozzilla
+    	switch (e.which){ //for FireFox
 				case attack:
-				///uh, do something attacky
-				game.board.player.moving = true;
-				game.board.player.attack = true;
-				game.board.attack();
-				break;
+					///uh, do something attacky
+					game.board.player.attack = true;
+					game.board.attack();
+					break;
 			}
 }
 
@@ -50,10 +45,7 @@ function Stop(e){
 			game.board.halt();
 			break;
 	}
-	//game.board.player.sprite.attack = false;
-	game.board.player.moving = false;
-	//game.board.halt();
-	//alert("stop moving");
+
 }
 
 if ($.browser.mozilla) {

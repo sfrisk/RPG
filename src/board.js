@@ -10,9 +10,9 @@ function Board(cell_width){
 	this.height = document.body.clientHeight;
 	this.center = [Math.floor(this.width/2), Math.floor(this.height/2)];
 	
-	this.selected = [1,1];
+	//this.player.location = [1,1];
 
-	this.player = new Sprite("library/images/players/sprite_test.json", this.selected);
+	this.player = new Sprite("library/images/players/sprite_test.json", [1,1]);
 	this.enemy = new Sprite("library/images/players/enemy.json", [3,15]);
 	//this.entities = [];
 	
@@ -30,8 +30,9 @@ Board.prototype.clear = function() {
 		this.ctx.clearRect(0,0,this.width,this.height);
 };
 	
-Board.prototype.set_selected = function(new_val){
-	this.selected = new_val;
+Board.prototype.set_selected = function(x,y){
+	//this.player.location = new_val;
+	this.player.setLocation(x,y);
 };
 	
 Board.prototype.generateGrid = function() {
@@ -40,8 +41,9 @@ Board.prototype.generateGrid = function() {
 			this.drawMap(x,y);
 		}
 	}
-	this.drawSprite((this.selected[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.selected[1] * (this.map.cell_width )) - 10,this.player);
-	this.drawSprite((this.enemy.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.enemy.location[1] * (this.map.cell_width )) - 10,this.enemy);
+	//this.drawSprite((this.player.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.player.location[1] * (this.map.cell_width )) - 10,this.player);
+	this.player.draw((this.player.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.player.location[1] * (this.map.cell_width )) - 10,this.ctx);
+	this.enemy.draw((this.enemy.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.enemy.location[1] * (this.map.cell_width )) - 10,this.ctx);
 };
 	
 Board.prototype.draw = function(){
@@ -68,16 +70,7 @@ Board.prototype.drawRects = function(x,y,w,h,color)
 	this.ctx.fill();
 };
 	
-Board.prototype.drawSprite = function(x,y,src)
-{
-	//console.log(src);
-	draw =  src.drawInfo(x,y);
-	//drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-	this.ctx.drawImage(draw[0],draw[1],draw[2],draw[3],draw[4],draw[5],draw[6],draw[3],draw[4]);
-	
-	
-	
-};
+
 	//Enemy functions (temporary until I do something else)
 Board.prototype.moveEntity = function(entity)
 {
@@ -106,47 +99,6 @@ Board.prototype.moveEntity = function(entity)
 	}
 }
 	
-	
-	//Player functions
-Board.prototype.up = function()
-{
-	if(this.map.walkable[this.selected[1]-1][this.selected[0]] == 0)
-	{
-		this.set_selected([this.selected[0], this.selected[1] - 1]);
-	}
-	this.player.changeFace(up);
-	//this.draw();
-};
-	
-Board.prototype.down = function()
-{
-	if(this.map.walkable[this.selected[1]+1][this.selected[0]] == 0)
-	{
-		this.set_selected([this.selected[0], this.selected[1] + 1]);
-	}
-	this.player.changeFace(down);
-	//this.draw();
-};
-	
-Board.prototype.right = function()
-{
-	if(this.map.walkable[this.selected[1]][this.selected[0] + 1] == 0)
-	{
-		this.set_selected([this.selected[0]+1,this.selected[1]]);
-	}
-	this.player.changeFace(right);
-	//this.draw();
-};
-	
-Board.prototype.left = function()
-{
-	if(this.map.walkable[this.selected[1]][this.selected[0]-1] == 0)
-	{
-		this.set_selected([this.selected[0] - 1, this.selected[1]]);
-	}
-	this.player.changeFace(left);
-	//this.draw();	
-};
 	
 Board.prototype.attack = function()
 {
