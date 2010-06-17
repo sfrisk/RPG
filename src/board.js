@@ -13,8 +13,10 @@ function Board(cell_width){
 	//this.player.location = [1,1];
 
 	this.player = new Sprite("library/images/players/sprite_test.json", [1,1]);
-	this.enemy = new Sprite("library/images/players/enemy.json", [3,15]);
+	//this.enemy = new Sprite("library/images/players/enemy.json", [3,15]);
 	//this.entities = [];
+	
+	
 	
 	this.count = 0;
 
@@ -36,9 +38,14 @@ Board.prototype.generateGrid = function() {
 			this.drawTile(x,y);
 		}
 	}
+	
+	sx = this.player.getWidth() / 2;
+	sy = this.player.getHeight() / 2;
 	//this.drawSprite((this.player.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.player.location[1] * (this.map.cell_width )) - 10,this.player);
-	this.player.draw((this.player.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.player.location[1] * (this.map.cell_width )) - 10,this.ctx);
-	this.enemy.draw((this.enemy.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.enemy.location[1] * (this.map.cell_width )) - 10,this.ctx);
+	//this.player.draw((this.player.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.player.location[1] * (this.map.cell_width )) -10,this.ctx);
+	this.player.draw(this.player.location[0] * this.map.cell_width,this.player.location[1] * this.map.cell_width, this.ctx);
+	
+	//this.enemy.draw((this.enemy.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.enemy.location[1] * (this.map.cell_width )) - 10,this.ctx);
 };
 	
 Board.prototype.draw = function(){
@@ -48,6 +55,7 @@ Board.prototype.draw = function(){
 		//this.count ++;
 		//if(this.count > 5)
 		//	this.count = 0;
+		this.player.animate();
 		this.generateGrid();
 };
 	

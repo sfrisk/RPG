@@ -8,19 +8,20 @@ function Sprite(src, location)
 	// this.position = new Vector(); // this will be our new location
 	// this.velocity = new Vector();
 	// this.state = 0;
-	// this.direction = 0;
+	 this.moving = false;
+	 this.direction = 0;
 	// this.width = 1;
 	// this.height = 1;
 	// this.curframe = 0;
 	// this.totalframes = 1;
-	// this.animdir = 1;
+	 this.animdir = 1;
 	// this.animcolumns = 1;
 	// this.framestart = 0;
 	// this.frametimer = 0;
-	// this.animcolumns = 1;
+	 this.animcolumns = 1;
 	// this.animstartx = 0;
 	// this.animstarty = 0;
-	// this.faceAngle = 0;
+	// this.directionAngle = 0;
 	// this.moveAngle = 0;
 	// //rotation?
 	// //scaling?
@@ -32,7 +33,7 @@ function Sprite(src, location)
 
 
 	this.attack = false;
-	this.face = [0,0]; //this is the direction we're facing
+	this.direction = 0; //this is the direction we're facing
 	//this.image = new Image();
 	this.init();
 };
@@ -42,21 +43,18 @@ Sprite.prototype.init = function()
 	var sprite = this;
 		$.getJSON(sprite.src, null, function(json){
 			sprite.image.src = json.Source;
-			sprite.sWidth = json.SpriteWidth; //width of a sprite cell
-			sprite.sHeight = json.SpriteHeight; //height of sprite cell
+			//sprite.width = json.SpriteWidth; //width of a sprite cell
+			//sprite.height = json.SpriteHeight; //height of sprite cell
+			sprite.setSize(json.SpriteWidth,json.SpriteHeight);
+			sprite.setColumns(json.Width);
 			sprite.down = json.Down; //the location of the sprites facing down (could be an array of arrays for animation)
 			sprite.left = json.Left;
 			sprite.up = json.Up;
 			sprite.right = json.Right;
-			sprite.xoff = json.xOffset;
-			sprite.yoff = json.yOffset;
-			//figure out later what to do for attacks and stuff
-			sprite.dAttack = json.Down_Attack;
-			sprite.lAttack = json.Left_Attack;
-			sprite.uAttack = json.Up_Attack;
-			sprite.rAttack = json.Right_Attack;
 
-			sprite.face = sprite.down;
+			sprite.curframe = 0;
+			sprite.face = 0;
+			
 		});
 		
 };
@@ -178,7 +176,7 @@ Sprite.prototype.getColumns = function()
 };
 Sprite.prototype.setColumns = function(value)
 {
-	this.animcolumns = value;
+	this.anicolumns = value;
 };
 
 Sprite.prototype.getFrameTimer = function()
@@ -231,33 +229,35 @@ Sprite.prototype.setCollidable = function(value)
 Sprite.prototype.draw = function(x,y,ctx)
 {
 	image = this.image;
-	sWidth = this.sWidth;
-	sHeight = this.sHeight;
-	sx = this.face[0] * sWidth;
-	sy = this.face[1] * sHeight;
-	dx = x + this.xoff;
-	dy = y + this.yoff;
-	//console.log([image,sx, sy, sWidth, sHeight, dx, dy]);
-	//return [image,sx, sy, sWidth, sHeight, dx, dy];
-	ctx.drawImage(image,sx,sy,sWidth,sHeight,dx,dy,sWidth,sHeight);
+	width = this.width;
+	height = this.height;
+	//sx = this.direction[0] * width;
+	sx = this.curframe * width;
+	sy = this.direction * height;
+
+	dx = x - this.getWidth()/3;
+	dy = y - this.getHeight()/3;
+	//console.log([image,sx, sy, width, height, dx, dy]);
+	//return [image,sx, sy, width, height, dx, dy];
+	ctx.drawImage(image,sx,sy,width,height,dx,dy,width,height);
 }
 
 Sprite.prototype.animate = function()
 {
-	time = new Date;
-	if (this.frametimer > 0)
+	if(this.moving == true)
 	{
-		if(time.getTime() > (this.framestart + this.frametimer))
+		if (this.curframe < this.getColumns()-1)
 		{
-			//reset animation timer
-			this.framestart = time.getTime();
-			this.curframe += this.animdir;
-			//keep frame within bounds
-			if(this.curframe < 0)
-				this.curframe = this.totalframes-1;
-			if(this.curframe > this.totalframe-1)
-				this.curframe = 0;
+			this.curframe ++;
 		}
+		else
+		{
+			this.curframe = 1;
+		}
+	}
+	else
+	{
+		this.curframe = 0;
 	}
 }
 
@@ -326,14 +326,14 @@ Sprite.prototype.moveRight = function(map)
 Sprite.prototype.drawInfo = function(x,y)
 {
 	image = this.image;
-	sWidth = this.sWidth;
-	sHeight = this.sHeight;
-	sx = this.face[0] * sWidth;
-	sy = this.face[1] * sHeight;
+	width = this.width;
+	height = this.height;
+	sx = this.direction[0] * width;
+	sy = this.direction[1] * height;
 	dx = x + this.xoff;
 	dy = y + this.yoff;
-	//console.log([image,sx, sy, sWidth, sHeight, dx, dy]);
-	return [image,sx, sy, sWidth, sHeight, dx, dy];
+	//console.log([image,sx, sy, width, height, dx, dy]);
+	return [image,sx, sy, width, height, dx, dy];
 };
 
 
@@ -341,26 +341,30 @@ Sprite.prototype.changeDirection = function(direction)
 {
 	switch (direction){
 		case down:
-			this.face = this.down;
+			this.direction = 0;
+			this.curframe = 0;
 			break;
 		case up:
-			this.face = this.up;
+			this.direction = 2;
+			this.curframe = 0;
 			break;
 		case left:
-			this.face = this.left;
+			this.direction = 3;
+			this.curframe = 0;
 			break;
 		case right:
-			this.face = this.right;
+			this.direction = 1;
+			this.curframe = 0;
 			break;	
 	}
-	if (this.attack == false)
-	{	
-		this.face[1] = 0;
-		//console.log(this.face);
-	}
-	if (this.attack == true)
-	{
-		this.face[1] = 1;
-		//console.log(this.face);
-	}
+	// if (this.attack == false)
+	// {	
+	// 	this.direction[1] = 0;
+	// 	//console.log(this.direction);
+	// }
+	// if (this.attack == true)
+	// {
+	// 	this.direction[1] = 1;
+	// 	//console.log(this.direction);
+	// }
 };
