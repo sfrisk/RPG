@@ -75,34 +75,34 @@ Board.prototype.moveEntity = function(entity)
 	if(i == 1 && this.map.walkable[loc[1]-1][loc[0]] == 0)
 	{
 		entity.location = [loc[0],loc[1]-1];
-		entity.changeFace(up);
+		entity.changeDirection(up);
 	}
 	if(i == 2 && this.map.walkable[loc[1]+1][loc[0]] == 0)
 	{
 		entity.location = [loc[0],loc[1]+1];
-		entity.changeFace(down);
+		entity.changeDirection(down);
 	}
 	if(i == 3 && this.map.walkable[loc[1]][loc[0]-1] == 0)
 	{
 		entity.location = [loc[0]-1,loc[1]];
-		entity.changeFace(left);
+		entity.changeDirection(left);
 	}
 	if(i == 4 && this.map.walkable[loc[1]-1][loc[0]+1] == 0)
 	{
 		entity.location = [loc[0]+1,loc[1]];
-		entity.changeFace(right);
+		entity.changeDirection(right);
 	}
 }
 	
 	
 Board.prototype.attack = function()
 {
-	this.player.changeFace(attack);
+	this.player.changeDirection(attack);
 	//this.draw();
 };	
 
 Board.prototype.halt = function()
 {
-	this.player.changeFace(stop);
+	this.player.changeDirection(stop);
 	//this.draw();
 }
