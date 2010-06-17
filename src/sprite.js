@@ -4,31 +4,31 @@ function Sprite(src, location)
 	this.location = location;
 	
 	this.image = new Image();
-	this.imageLoaded = false;
-	this.position = new Vector();
-	this.velocity = new Vector();
-	this.state = 0;
-	this.direction = 0;
-	this.width = 1;
-	this.height = 1;
-	this.curframe = 0;
-	this.totalframes = 1;
-	this.animdir = 1;
-	this.animcolumns = 1;
-	this.framestart = 0;
-	this.frametimer = 0;
-	this.animcolumns = 1;
-	this.animstartx = 0;
-	this.animstarty = 0;
-	this.faceAngle = 0;
-	this.moveAngle = 0;
-	//rotation
-	//scaling
-	//clolor
-	this.movetimer = 16;
-	this.movestart = 0;
-	this.collidable = true;
-	this.collisionMethod = COLLISION_RECT;
+	// this.imageLoaded = false;
+	// this.position = new Vector(); // this will be our new location
+	// this.velocity = new Vector();
+	// this.state = 0;
+	// this.direction = 0;
+	// this.width = 1;
+	// this.height = 1;
+	// this.curframe = 0;
+	// this.totalframes = 1;
+	// this.animdir = 1;
+	// this.animcolumns = 1;
+	// this.framestart = 0;
+	// this.frametimer = 0;
+	// this.animcolumns = 1;
+	// this.animstartx = 0;
+	// this.animstarty = 0;
+	// this.faceAngle = 0;
+	// this.moveAngle = 0;
+	// //rotation?
+	// //scaling?
+	// //clolor?
+	// this.movetimer = 16;
+	// this.movestart = 0;
+	// this.collidable = true;
+	// this.collisionMethod = COLLISION_RECT;
 
 
 	this.attack = false;
@@ -61,6 +61,12 @@ Sprite.prototype.init = function()
 		
 };
 
+Sprite.prototype.setLocation = function(x,y)
+{
+	this.location = [x,y];
+};
+
+
 //screen position
 Sprite.prototype.getPosition = function()
 {
@@ -78,7 +84,7 @@ Sprite.prototype.getX = function()
 {
 	return this.position.getX();
 };
-Sprite.prototype.setX = functions(x)
+Sprite.prototype.setX = function(x)
 {
 	this.position.setX(x);
 };
@@ -112,29 +118,29 @@ Sprite.prototype.setSize = function(x,y)
 {
 	this.width = x;
 	this.height = y;
-}
+};
 Sprite.prototype.getWidth = function()
 {
 	return this.width;
-}
+};
 Sprite.prototype.setWidth = function(width)
 { 
 	this.width = width;
-}
+};
 Sprite.prototype.getHeight = function()
 {
 	return this.height;
-}
+};
 Sprite.prototype.setHeight = function(height)
 {
 	this.height = height;
-}
+};
 
 Sprite.prototype.getVisible = function()
 {
 	return this.visible;
 };
-Sprite.prototype.setVisible = function (value)
+Sprite.prototype.setVisible = function(value)
 {
 	this.visible = value;
 };
@@ -142,11 +148,11 @@ Sprite.prototype.setVisible = function (value)
 Sprite.prototype.getAlive = function()
 {
 	return this.alive;
-}
+};
 Sprite.prototype.setAlive = function(value)
 {
 	this.alive = value;
-}
+};
 
 Sprite.prototype.getState = function()
 {
@@ -215,35 +221,12 @@ Sprite.prototype.isCollidable = function()
 {
 	return this.collidable;
 }
-Spite.prototype.setCollidable = function(value)
+Sprite.prototype.setCollidable = function(value)
 {
 	this.collidable = value;
 }
 
-
-Sprite.prototype.setImage = function(src)
-{
-	var Sprite = this;
-	this.image.src = src;
-	this.width = image.width;
-	this.height = image.height;
-	this.image.onload = function(){
-		Sprite.imageLoaded = true;
-		}
-};
 	
-
-
-Sprite.setTotalFrames = function(i)
-{
-	this.totalframes = i;
-}	
-	
-
-Sprite.prototype.setLocation = function(x,y)
-{
-	this.location = [x,y];
-};
 
 Sprite.prototype.draw = function(x,y,ctx)
 {
@@ -278,6 +261,7 @@ Sprite.prototype.animate = function()
 	}
 }
 
+//smoother moving by velocity
 Sprite.prototype.move = function()
 {
 	time = new Date;
@@ -289,11 +273,20 @@ Sprite.prototype.move = function()
 			this.movestart = time.getTime();
 			
 			//move sprite by velocity amount
-			
+			this.setX(this.getX() + this.velocity.getX());
+			this.setY(this.getY() + this.velocity.getY());
 		}
+	}
+	else
+	{
+		//no movement timer -- update at cpu clock speed
+		this.setX(this.getX() + this.velocity.getX());
+		this.setY(this.getY() + this.velocity.getY());
 	}
 }
 
+
+//Move by grid
 Sprite.prototype.moveUp = function(map)
 {
 	if(map[this.location[1]-1][this.location[0]] == 0)
