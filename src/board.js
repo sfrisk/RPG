@@ -19,11 +19,6 @@ function Board(cell_width){
 	this.count = 0;
 
 };
-
-
-Board.prototype.passable = function(x,y){
-		return [0,1][this.map.terrain[y][x]];
-	};
 	
 	
 Board.prototype.clear = function() {
@@ -38,7 +33,7 @@ Board.prototype.set_selected = function(x,y){
 Board.prototype.generateGrid = function() {
 	for (var x = 0; x < this.map.terrain[0].length; x++){
 		for (var y = 0; y < this.map.terrain.length; y++){
-			this.drawMap(x,y);
+			this.drawTile(x,y);
 		}
 	}
 	//this.drawSprite((this.player.location[0] * (this.map.cell_width)) - (this.map.cell_width/4),(this.player.location[1] * (this.map.cell_width )) - 10,this.player);
@@ -48,15 +43,15 @@ Board.prototype.generateGrid = function() {
 	
 Board.prototype.draw = function(){
 		this.clear();
-		if(this.count == 0)
-			this.moveEntity(this.enemy);
-		this.count ++;
-		if(this.count > 5)
-			this.count = 0;
+		//if(this.count == 0)
+		//	this.moveEntity(this.enemy);
+		//this.count ++;
+		//if(this.count > 5)
+		//	this.count = 0;
 		this.generateGrid();
 };
 	
-Board.prototype.drawMap = function(x,y)
+Board.prototype.drawTile = function(x,y)
 {
 	this.ctx.drawImage(this.map.map_tiles1, this.map.terrain[x][y] * this.map.cell_width, 0 * this.map.cell_width, this.map.cell_width, this.map.cell_width, y * (this.map.cell_width),x * (this.map.cell_width), this.map.cell_width, this.map.cell_width);
 };

@@ -12,6 +12,10 @@ var STOP = 1;
 
 var ENTER = 13;
 
+var COLLISION_NONE = 0;
+var COLLISION_RECT = 1; 
+var COLLISION_DIST = 2;
+
 if ($.browser.mozilla) {
     attack = 122;
 } else {
