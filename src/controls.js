@@ -3,7 +3,8 @@ function checkKey(e){ //trigger walking animation?
 	var Player = game.board.player;
 	var map = game.board.map.walkable;
 	
- 
+ 	if(Player.checkEqual() == true)
+	{
 		switch (e.keyCode) {
         case down: //down key
 						Player.moveDown(map);
@@ -26,7 +27,7 @@ function checkKey(e){ //trigger walking animation?
 						game.switchState();
 						break;
             }  
-			
+			}
 			//     	switch (e.which){ //for FireFox
 			// 	case attack:
 			// 		///uh, do something attacky
@@ -34,6 +35,7 @@ function checkKey(e){ //trigger walking animation?
 			// 		game.board.attack();
 			// 		break;
 			// }
+	
 }
 
 function Stop(e){

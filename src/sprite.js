@@ -22,7 +22,7 @@ function Sprite(src, location, grid)
 	// this.animcolumns = 1;
 	// this.framestart = 0;
 	// this.frametimer = 0;
-	 this.animcolumns = 1;
+	 this.animcolumns = 11;
 	// this.animstartx = 0;
 	// this.animstarty = 0;
 	// this.directionAngle = 0;
@@ -154,9 +154,7 @@ Sprite.prototype.draw = function(x,y,ctx)
 
 Sprite.prototype.animate = function()
 {
-
-
-	if (this.curframe < this.getColumns()-1)
+	if (this.curframe < this.getColumns())
 	{
 		this.curframe ++;
 	}
@@ -164,11 +162,7 @@ Sprite.prototype.animate = function()
 	{
 		this.curframe = 1;
 	}
-	
-	if (this.moving = false)
-	{
-		this.curframe = 0;
-	}
+
 }
 
 //smoother moving by velocity
@@ -182,13 +176,13 @@ Sprite.prototype.move = function()
 			this.velocity = [0,0];
 			this.curframe = 0;
 		}
+		else
+			this.animate();	
 	}
 
 	else
 	{
-		//no movement timer -- update at cpu clock speed
-		//this.setX(this.position[0] + this.velocity[0]);
-		//this.setY(this.position[1] + this.velocity[1]);	
+
 		this.position[0] += this.velocity[0];
 		this.position[1] += this.velocity[1];	
 		this.animate();	
@@ -202,13 +196,13 @@ Sprite.prototype.move = function()
 Sprite.prototype.moveUp = function(map)
 {
 
-		if(map[this.location[1]-1][this.location[0]] == 0 && this.checkEqual() == true)
+		if(map[this.location[1]-1][this.location[0]] == 0)
 		{
 			this.setLocation(this.location[0], this.location[1] - 1);
 			this.velocity=[0,-4];
 			this.moving = true;
-			this.changeDirection(UP);
 		}
+					this.changeDirection(UP);
 		
 	
 	
@@ -217,28 +211,26 @@ Sprite.prototype.moveUp = function(map)
 Sprite.prototype.moveDown = function(map)
 {
 	
-		if(map[this.location[1]+1][this.location[0]] == 0 && this.checkEqual() == true)
+		if(map[this.location[1]+1][this.location[0]] == 0)
 		{
 			this.setLocation(this.location[0], this.location[1]+1);
 			this.velocity=[0,4];
 			this.moving = true;
-			this.changeDirection(DOWN);
 		}
-		
+					this.changeDirection(DOWN);
 
 };
 
 Sprite.prototype.moveLeft = function(map)
 {
 
-		if(map[this.location[1]][this.location[0]-1] == 0 && this.checkEqual() == true)
+		if(map[this.location[1]][this.location[0]-1] == 0)
 		{
 			this.setLocation(this.location[0]-1,this.location[1]);
 			this.velocity=[-4,0];
 			this.moving = true;
-			this.changeDirection(LEFT);
 		}
-		
+					this.changeDirection(LEFT);
 
 	
 };
@@ -246,15 +238,13 @@ Sprite.prototype.moveLeft = function(map)
 Sprite.prototype.moveRight = function(map)
 {
 
-		if(map[this.location[1]][this.location[0]+1] == 0 && this.checkEqual() == true)
+		if(map[this.location[1]][this.location[0]+1] == 0)
 		{
 			this.setLocation(this.location[0]+1,this.location[1]);
 			this.velocity=[4,0];
 			this.moving = true;
-			this.changeDirection(RIGHT);
 		}
-		
-
+			this.changeDirection(RIGHT);
 
 };
 
@@ -265,19 +255,19 @@ Sprite.prototype.changeDirection = function(direction)
 	switch (direction){
 		case DOWN:
 			this.direction = DOWN;
-			this.curframe = 0;
+			//this.curframe = 0;
 			break;
 		case UP:
 			this.direction = UP;
-			this.curframe = 0;
+			//this.curframe = 0;
 			break;
 		case LEFT:
 			this.direction = LEFT;
-			this.curframe = 0;
+			//this.curframe = 0;
 			break;
 		case RIGHT:
 			this.direction = RIGHT;
-			this.curframe = 0;
+			//his.curframe = 0;
 			break;	
 	}
 	// if (this.attack == false)
