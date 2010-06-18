@@ -2,23 +2,19 @@ function checkKey(e){ //trigger walking animation?
 	//	alert("keypress");
 	var Player = game.board.player;
 	var map = game.board.map.walkable;
-     switch (e.keyCode) {
+	
+ 
+		switch (e.keyCode) {
         case down: //down key
-						game.board.player.moving = true;
 						Player.moveDown(map);
 						break;
         case up: //up key
-						//game.board.up();
-						game.board.player.moving = true;
 						Player.moveUp(map);
 						break;
         case left: //left key
-						//game.board.left();
-						game.board.player.moving = true;
-						Player.moveLeft(map)
+						Player.moveLeft(map);
 						break;
         case right: //right key
-						game.board.player.moving = true;
 						Player.moveRight(map);
 						break;
 				// case attack:
@@ -30,6 +26,7 @@ function checkKey(e){ //trigger walking animation?
 						game.switchState();
 						break;
             }  
+			
 			//     	switch (e.which){ //for FireFox
 			// 	case attack:
 			// 		///uh, do something attacky
@@ -42,9 +39,11 @@ function checkKey(e){ //trigger walking animation?
 function Stop(e){
 	//call whatever it is I'm calling to stop animation
 	game.board.player.moving = false;
+	//game.board.player.velocity = [0,0];
 	switch (e.which){
 		case attacked:
 			game.board.player.attack = false;
+			
 			game.board.halt();
 			break;
 	}

@@ -2,6 +2,12 @@ var left = 37;
 var up = 38;
 var right = 39;
 var down = 40;
+
+var DOWN = 0;
+var RIGHT = 1;
+var UP = 2;
+var LEFT = 3;
+
 var attack = 122;
 var attacked = 90;
 var stop = 0;

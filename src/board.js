@@ -12,7 +12,7 @@ function Board(cell_width){
 	
 	//this.player.location = [1,1];
 
-	this.player = new Sprite("library/images/players/sprite_test.json", [1,1]);
+	this.player = new Sprite("library/images/players/sprite_test.json", [1,1],cell_width);
 	//this.enemy = new Sprite("library/images/players/enemy.json", [3,15]);
 	//this.entities = [];
 	
@@ -55,7 +55,8 @@ Board.prototype.draw = function(){
 		//this.count ++;
 		//if(this.count > 5)
 		//	this.count = 0;
-		this.player.animate();
+		this.player.move();
+		//this.player.animate();
 		this.generateGrid();
 };
 	

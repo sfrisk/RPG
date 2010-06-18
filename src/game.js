@@ -1,6 +1,6 @@
 function Game()
 {
-	this.board = new Board(15);
+	this.board = new Board(16);
 	this.element = $('content');
 	//this.init();
 	this.state = 0;
@@ -10,7 +10,7 @@ Game.prototype.init = function()
 {
 	var game = this;
 	
-	setInterval("game.run()", 60);
+	setInterval("game.run()", 70);
 	
 	//setInterval("game.board.draw()", 75);
 };

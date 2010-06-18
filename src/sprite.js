@@ -1,12 +1,16 @@
-function Sprite(src, location)
+function Sprite(src, location, grid)
 {
 	this.src = src; //this is the location of the Json file
-	this.location = location;
-	
+	this.location = location; // grid location
+	this.grid = grid; //size of grid
+	this.position = [this.location[0]*grid,this.location[1]*grid];
+	this.velocity = [0,0];
+	this.trigger = false;
 	this.image = new Image();
 	// this.imageLoaded = false;
-	// this.position = new Vector(); // this will be our new location
-	// this.velocity = new Vector();
+	//this.position = new Vector(); // this will be our screen location
+	//this.setPosXY(this.location[0] * this.grid, this.location[1] * this.grid);
+	//this.velocity = new Vector();
 	// this.state = 0;
 	 this.moving = false;
 	 this.direction = 0;
@@ -64,52 +68,31 @@ Sprite.prototype.setLocation = function(x,y)
 	this.location = [x,y];
 };
 
+Sprite.prototype.checkEqual = function()
+{
+
+	if(this.location[0]*this.grid == this.position[0] && this.location[1]*this.grid == this.position[1])
+		return true;
+	else
+		return false;
+}
+
 
 //screen position
-Sprite.prototype.getPosition = function()
-{
-	return this.position;
-};
-Sprite.prototype.setPosition = function(vector)
-{
-	this.position = vector;
-};
-Sprite.prototype.setPosXY = function(x,y)
-{
-	this.position.set(x,y,0);
-};
-Sprite.prototype.getX = function()
-{
-	return this.position.getX();
-};
 Sprite.prototype.setX = function(x)
 {
-	this.position.setX(x);
-};
-Sprite.prototype.getY = function()
-{
-	return this.position.getY();
-};
+	this.position[0] = x;
+}
 Sprite.prototype.setY = function(y)
 {
-	return this.position.setY(y);
+	this.position[1] = y;
 }
 
-//movement velocity
-Sprite.prototype.getVelocity = function()
+//velocity
+Sprite.prototype.setVelocity = function(x,y)
 {
-	return this.velocity;
+	this.velocity = [x,y];
 }
-Sprite.prototype.setVelocity = function(vector)
-{
-	this.velocity = vector;
-}
-Sprite.prototype.setVelXY = function(x,y)
-{
-	this.velocity.setX(x);
-	this.velocity.setY(y);
-}
-
 
 //image size
 Sprite.prototype.setSize = function(x,y)
@@ -134,33 +117,6 @@ Sprite.prototype.setHeight = function(height)
 	this.height = height;
 };
 
-Sprite.prototype.getVisible = function()
-{
-	return this.visible;
-};
-Sprite.prototype.setVisible = function(value)
-{
-	this.visible = value;
-};
-
-Sprite.prototype.getAlive = function()
-{
-	return this.alive;
-};
-Sprite.prototype.setAlive = function(value)
-{
-	this.alive = value;
-};
-
-Sprite.prototype.getState = function()
-{
-	return this.state;
-};
-Sprite.prototype.setState = function(value)
-{
-	this.state = value;
-};
-
 Sprite.prototype.getDirection = function()
 {
 	return this.direction;
@@ -179,52 +135,6 @@ Sprite.prototype.setColumns = function(value)
 	this.anicolumns = value;
 };
 
-Sprite.prototype.getFrameTimer = function()
-{
-	return this.frametimer;
-}
-Sprite.prototype.setFrameTimer = function(value)
-{
-	this.frametimer = value;
-}
-
-Sprite.prototype.getCurrentFrame = function()
-{
-	return this.curframe;
-};
-Sprite.prototype.setCurrentFrame = function(value)
-{
-	this.curframe = value;
-};
-
-Sprite.prototype.getTotalFrames = function()
-{
-	return this.totalframes;
-}
-Sprite.prototype.setTotalFrames = function()
-{
-	this.totalframes = value;
-}
-
-Sprite.prototype.getAnimationDirection = function()
-{
-	return this.animdir;
-}
-Sprite.prototype.setAnimationDirection = function(value)
-{
-	this.animdir = value;
-}
-
-Sprite.prototype.isCollidable = function()
-{
-	return this.collidable;
-}
-Sprite.prototype.setCollidable = function(value)
-{
-	this.collidable = value;
-}
-
-	
 
 Sprite.prototype.draw = function(x,y,ctx)
 {
@@ -235,8 +145,8 @@ Sprite.prototype.draw = function(x,y,ctx)
 	sx = this.curframe * width;
 	sy = this.direction * height;
 
-	dx = x - this.getWidth()/3;
-	dy = y - this.getHeight()/3;
+	dx = this.position[0] - this.getWidth()/3;
+	dy = this.position[1] - this.getHeight()/3;
 	//console.log([image,sx, sy, width, height, dx, dy]);
 	//return [image,sx, sy, width, height, dx, dy];
 	ctx.drawImage(image,sx,sy,width,height,dx,dy,width,height);
@@ -244,18 +154,18 @@ Sprite.prototype.draw = function(x,y,ctx)
 
 Sprite.prototype.animate = function()
 {
-	if(this.moving == true)
+
+
+	if (this.curframe < this.getColumns()-1)
 	{
-		if (this.curframe < this.getColumns()-1)
-		{
-			this.curframe ++;
-		}
-		else
-		{
-			this.curframe = 1;
-		}
+		this.curframe ++;
 	}
 	else
+	{
+		this.curframe = 1;
+	}
+	
+	if (this.moving = false)
 	{
 		this.curframe = 0;
 	}
@@ -264,96 +174,109 @@ Sprite.prototype.animate = function()
 //smoother moving by velocity
 Sprite.prototype.move = function()
 {
-	time = new Date;
-	if(this.movetimer>0)
+
+	if(this.checkEqual() == true)
 	{
-		if(time.getTime() > (this.movestart + this.movetimer))
+		if(this.moving == false)
 		{
-			//reset move timer
-			this.movestart = time.getTime();
-			
-			//move sprite by velocity amount
-			this.setX(this.getX() + this.velocity.getX());
-			this.setY(this.getY() + this.velocity.getY());
+			this.velocity = [0,0];
+			this.curframe = 0;
 		}
 	}
+
 	else
 	{
 		//no movement timer -- update at cpu clock speed
-		this.setX(this.getX() + this.velocity.getX());
-		this.setY(this.getY() + this.velocity.getY());
+		//this.setX(this.position[0] + this.velocity[0]);
+		//this.setY(this.position[1] + this.velocity[1]);	
+		this.position[0] += this.velocity[0];
+		this.position[1] += this.velocity[1];	
+		this.animate();	
 	}
+	
+	
 }
 
 
 //Move by grid
 Sprite.prototype.moveUp = function(map)
 {
-	if(map[this.location[1]-1][this.location[0]] == 0)
-	{
-		this.setLocation(this.location[0], this.location[1] - 1);
-	}
-	this.changeDirection(up);
+
+		if(map[this.location[1]-1][this.location[0]] == 0 && this.checkEqual() == true)
+		{
+			this.setLocation(this.location[0], this.location[1] - 1);
+			this.velocity=[0,-4];
+			this.moving = true;
+			this.changeDirection(UP);
+		}
+		
+	
+	
 };
 
 Sprite.prototype.moveDown = function(map)
 {
-	if(map[this.location[1]+1][this.location[0]] == 0)
-	{
-		this.setLocation(this.location[0], this.location[1]+1);
-	}
-	this.changeDirection(down);
+	
+		if(map[this.location[1]+1][this.location[0]] == 0 && this.checkEqual() == true)
+		{
+			this.setLocation(this.location[0], this.location[1]+1);
+			this.velocity=[0,4];
+			this.moving = true;
+			this.changeDirection(DOWN);
+		}
+		
+
 };
 
 Sprite.prototype.moveLeft = function(map)
 {
-	if(map[this.location[1]][this.location[0]-1] == 0)
-	{
-		this.setLocation(this.location[0]-1,this.location[1]);
-	}
-	this.changeDirection(left);
+
+		if(map[this.location[1]][this.location[0]-1] == 0 && this.checkEqual() == true)
+		{
+			this.setLocation(this.location[0]-1,this.location[1]);
+			this.velocity=[-4,0];
+			this.moving = true;
+			this.changeDirection(LEFT);
+		}
+		
+
+	
 };
 
 Sprite.prototype.moveRight = function(map)
 {
-	if(map[this.location[1]][this.location[0]+1] == 0)
-	{
-		this.setLocation(this.location[0]+1,this.location[1]);
-	}
-	this.changeDirection(right);
+
+		if(map[this.location[1]][this.location[0]+1] == 0 && this.checkEqual() == true)
+		{
+			this.setLocation(this.location[0]+1,this.location[1]);
+			this.velocity=[4,0];
+			this.moving = true;
+			this.changeDirection(RIGHT);
+		}
+		
+
+
 };
 
-Sprite.prototype.drawInfo = function(x,y)
-{
-	image = this.image;
-	width = this.width;
-	height = this.height;
-	sx = this.direction[0] * width;
-	sy = this.direction[1] * height;
-	dx = x + this.xoff;
-	dy = y + this.yoff;
-	//console.log([image,sx, sy, width, height, dx, dy]);
-	return [image,sx, sy, width, height, dx, dy];
-};
 
 
 Sprite.prototype.changeDirection = function(direction)
 {
 	switch (direction){
-		case down:
-			this.direction = 0;
+		case DOWN:
+			this.direction = DOWN;
 			this.curframe = 0;
 			break;
-		case up:
-			this.direction = 2;
+		case UP:
+			this.direction = UP;
 			this.curframe = 0;
 			break;
-		case left:
-			this.direction = 3;
+		case LEFT:
+			this.direction = LEFT;
 			this.curframe = 0;
 			break;
-		case right:
-			this.direction = 1;
+		case RIGHT:
+			this.direction = RIGHT;
 			this.curframe = 0;
 			break;	
 	}

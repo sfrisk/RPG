@@ -1,6 +1,6 @@
 {
-	"CellWidth": 15,
-	"CellHeight": 15,
+	"CellWidth": 16,
+	"CellHeight": 16,
 	"MapWidth": 20,
 	"MapHeight": 20,
 	"MapSource": "library/images/basic_map.png",
